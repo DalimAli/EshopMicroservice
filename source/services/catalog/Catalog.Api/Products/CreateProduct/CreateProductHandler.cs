@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using System.Reflection.Metadata;
 using System.Security.Cryptography.Xml;
 
 namespace Catalog.Api.Products.CreateProduct;
@@ -18,18 +19,11 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
     }
 }
 
-internal class CreateProductCommandHandler(IDocumentSession documentSession, IValidator<CreateProductCommand> validator) : ICommandHandler<CreateProductCommand, CreateProductResult>
+internal class CreateProductCommandHandler(IDocumentSession documentSession, ILogger<CreateProductCommandHandler> logger) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     async Task<CreateProductResult> IRequestHandler<CreateProductCommand, CreateProductResult>.Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        var validationResult = await validator.ValidateAsync(command, cancellationToken);
-
-        var errors = validationResult.Errors
-            .Select(x => x.ErrorMessage)
-            .ToList();
-
-        if (errors.Any())
-            throw new ValidationException(errors.FirstOrDefault());
+        logger.LogInformation($"{nameof(CreateProductCommandHandler)} {nameof(Handle)}  called with @command", command);
 
         // create product from product command
         Product product = new()
