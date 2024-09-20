@@ -1,4 +1,3 @@
-using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +22,9 @@ builder.Services.AddMarten(option =>
 {
     option.Connection(builder.Configuration.GetConnectionString("DatabaseConnection"));
 }).UseLightweightSessions();
+
+if (builder.Environment.IsDevelopment())
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
