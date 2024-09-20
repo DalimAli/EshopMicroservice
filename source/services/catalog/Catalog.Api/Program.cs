@@ -10,6 +10,7 @@ builder.Services.AddMediatR(x =>
 {
     x.RegisterServicesFromAssembly(assembly);
     x.AddOpenBehavior(typeof(ValidationBehavior<,>));
+    x.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
 
@@ -22,6 +23,7 @@ builder.Services.AddMarten(option =>
 {
     option.Connection(builder.Configuration.GetConnectionString("DatabaseConnection"));
 }).UseLightweightSessions();
+
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 var app = builder.Build();
