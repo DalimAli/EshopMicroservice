@@ -1,6 +1,4 @@
-using buildingblocks.Behaviors;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +12,9 @@ builder.Services.AddMediatR(x =>
     x.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
 
+
 builder.Services.AddValidatorsFromAssembly(assembly);
+
 
 builder.Services.AddCarter();
 
@@ -22,9 +22,13 @@ builder.Services.AddMarten(option =>
 {
     option.Connection(builder.Configuration.GetConnectionString("DatabaseConnection"));
 }).UseLightweightSessions();
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 var app = builder.Build();
 
 // configure the http request pipeline
 app.MapCarter();
+
+app.UseExceptionHandler(options => { });
+
 app.Run();
