@@ -1,7 +1,4 @@
-﻿
-using Basket.Api.Basket.StoreBasket;
-
-namespace Basket.Api.Basket.DeleteBasket;
+﻿namespace Basket.Api.Basket.DeleteBasket;
 
 public record DeleteBasketCommand(string UserName) : ICommand<DeleteBasketResult>;
 
@@ -18,12 +15,12 @@ public class DeleteBasketCommandValidator : AbstractValidator<DeleteBasketComman
 
 }
 
-public class DeleteBasketCommandHandler : ICommandHandler<DeleteBasketCommand, DeleteBasketResult>
+public class DeleteBasketCommandHandler(IBasketRepository basketRepository) : ICommandHandler<DeleteBasketCommand, DeleteBasketResult>
 {
     public async Task<DeleteBasketResult> Handle(DeleteBasketCommand command, CancellationToken cancellationToken)
     {
+        await basketRepository.DeleteBasket(command.UserName, cancellationToken);
         // TODO: use marten to delete basket from db and also delete cache
-        // repository.Delete(command.UserName, cancellationToken);
 
         return new DeleteBasketResult(true);
 

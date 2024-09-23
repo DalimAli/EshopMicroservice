@@ -1,11 +1,10 @@
-﻿
-namespace Basket.Api.Basket.StoreBasket;
+﻿namespace Basket.Api.Basket.StoreBasket;
 
 public record StoreBasketCommand(ShoppingCart ShoppingCart) : ICommand<StoreBasketResult>;
 
-public record StoreBasketResult(string UserName); 
+public record StoreBasketResult(string UserName);
 
-public class StoreBasketCommandValidator: AbstractValidator<StoreBasketCommand>
+public class StoreBasketCommandValidator : AbstractValidator<StoreBasketCommand>
 {
     public StoreBasketCommandValidator()
     {
@@ -20,16 +19,14 @@ public class StoreBasketCommandValidator: AbstractValidator<StoreBasketCommand>
 
 }
 
-public class StoreBasketCommandHandler : ICommandHandler<StoreBasketCommand, StoreBasketResult>
+public class StoreBasketCommandHandler(IBasketRepository basketRepository) : ICommandHandler<StoreBasketCommand, StoreBasketResult>
 {
     public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
     {
-        ShoppingCart cart = command.ShoppingCart;
-
-        //TODO: store baseket in db (kuse marten upsert - if exist then update else insert)
+        await basketRepository.StoreBasket(command.ShoppingCart);
         //TODO: Update Cache
 
-        return new StoreBasketResult(cart.UserName);
+        return new StoreBasketResult(command.ShoppingCart.UserName);
     }
 }
 

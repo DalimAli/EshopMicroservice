@@ -1,6 +1,3 @@
-using Carter;
-using Marten;
-
 var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly;
@@ -25,6 +22,10 @@ builder.Services.AddMarten(option =>
     option.Connection(connectionString);
     option.Schema.For<ShoppingCart>().Identity(x => x.UserName);
 }).UseLightweightSessions();
+
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
