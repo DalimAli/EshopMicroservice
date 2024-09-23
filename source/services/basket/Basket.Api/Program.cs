@@ -18,11 +18,12 @@ builder.Services.AddValidatorsFromAssembly(assembly);
 
 builder.Services.AddCarter();
 
-var connectionString = builder.Configuration.GetConnectionString("Database");
+var connectionString = builder.Configuration.GetConnectionString("Database")!;
 
 builder.Services.AddMarten(option =>
 {
     option.Connection(connectionString);
+    option.Schema.For<ShoppingCart>().Identity(x => x.UserName);
 }).UseLightweightSessions();
 
 builder.Services.AddEndpointsApiExplorer();
