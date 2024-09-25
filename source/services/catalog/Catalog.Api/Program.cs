@@ -42,6 +42,8 @@ app.MapCarter();
 
 app.UseExceptionHandler(options => { });
 
+app.UseHttpsRedirection();
+
 app.UseHealthChecks("/health",
     new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
     {
