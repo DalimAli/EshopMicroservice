@@ -1,3 +1,4 @@
+using Discount.Grpc;
 using HealthChecks.UI.Client;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -5,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly;
 
+// Application Services
+builder.Services.AddCarter();
 builder.Services.AddMediatR(x =>
 {
     x.RegisterServicesFromAssembly(assembly);
@@ -13,11 +16,7 @@ builder.Services.AddMediatR(x =>
 });
 
 
-builder.Services.AddValidatorsFromAssembly(assembly);
-
-
-builder.Services.AddCarter();
-
+// Data Services
 var connectionString = builder.Configuration.GetConnectionString("Database")!;
 var redisConnectionString = builder.Configuration.GetConnectionString("Redis")!;
 
@@ -35,6 +34,14 @@ builder.Services.AddStackExchangeRedisCache(option =>
     option.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
 
+// Grpc services
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(option =>
+{
+    option.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+});
+
+
+// Cross cutting services
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 builder.Services.AddHealthChecks()
