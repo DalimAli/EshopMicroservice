@@ -23,8 +23,8 @@ public class StoreBasketCommandHandler(IBasketRepository basketRepository) : ICo
 {
     public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
     {
+        //TODO: Communicate with Discount.Grpc and caculate latesst prices of product
         await basketRepository.StoreBasket(command.ShoppingCart);
-        //TODO: Update Cache
 
         return new StoreBasketResult(command.ShoppingCart.UserName);
     }
