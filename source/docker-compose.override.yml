@@ -54,9 +54,11 @@ services:
       - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__Database=Server=basketdb;Port=5432;Database=BasketDb;User Id=postgres;Password=sa1234;Include Error Detail=true
       - ConnectionStrings__Redis=distributedCache:6379
+      - GrpcSettings__DiscountUrl=https://discount.grpc:8081
     depends_on:
       - catalogdb
       - distributedCache
+      - discount.grpc
     ports:
       - "5401:8080"
       - "5461:8081"
