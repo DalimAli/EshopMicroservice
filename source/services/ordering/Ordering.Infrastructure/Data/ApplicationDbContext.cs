@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Ordering.Application.Data;
 using System.Reflection;
 
 namespace Ordering.Infrastructure.Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
-    : DbContext(options)
+    : DbContext(options), IApplicationDbContext
 {
 
     public DbSet<Customer> Customers => Set<Customer>();
