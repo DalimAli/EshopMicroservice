@@ -11,3 +11,4 @@ global using Basket.Api.Exceptions;
 global using Basket.Api.Data;
 global using buildingblocks.Exceptions.Handler;
 global using buildingblocks.Messaging.Masstransit;
+global using Basket.Api.Dtos;
