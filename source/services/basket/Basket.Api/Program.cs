@@ -1,6 +1,5 @@
 using Discount.Grpc;
 using HealthChecks.UI.Client;
-using Microsoft.Extensions.Caching.Distributed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,7 +37,8 @@ builder.Services.AddStackExchangeRedisCache(option =>
 builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(option =>
 {
     option.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
-}).ConfigurePrimaryHttpMessageHandler(() =>
+})
+ .ConfigurePrimaryHttpMessageHandler(() =>
 {
     var handler = new HttpClientHandler
     {
@@ -46,6 +46,11 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
     };
     return handler;
 });
+
+// Async communication services
+// not passing assembly since we don't need consumer for basket
+builder.Services.AddMessageBroker(builder.Configuration);
+
 
 
 // Cross cutting services
