@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using buildingblocks.Messaging.Masstransit;
+using Microsoft.FeatureManagement;
 
 namespace Ordering.Application;
 
@@ -18,9 +19,11 @@ public static class DependencyInjection
             x.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
 
+        services.AddFeatureManagement();
         // Async communication services
         Assembly assembly = Assembly.GetExecutingAssembly();
         services.AddMessageBroker(configuration, assembly);
+
 
 
         return services;
