@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Yarp.ApiGateway", "Ap
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{22041BE4-3F51-45A8-97BC-851527C844A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eshop.ClientWeb", "WebApps\Eshop.ClientWeb\Eshop.ClientWeb.csproj", "{34A9C14F-5E3C-4E11-B092-09BBF474C327}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eshop.ClientWeb", "WebApps\Eshop.ClientWeb\Eshop.ClientWeb.csproj", "{34A9C14F-5E3C-4E11-B092-09BBF474C327}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
