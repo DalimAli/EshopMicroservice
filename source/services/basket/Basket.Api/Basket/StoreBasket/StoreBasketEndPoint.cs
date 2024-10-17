@@ -19,7 +19,7 @@ public class StoreBasketEndPoint : ICarterModule
 
                 StoreBasketResponse? response = result.Adapt<StoreBasketResponse>();
 
-                return Results.Created($"/products/{response.UserName}", response.UserName);
+                return Results.Created($"/products/{response.UserName}", new StoreBasketResponse(response.UserName));
 
             })
             .WithName("CreateBasket")
